@@ -1,7 +1,7 @@
 import "dotenv/config";
 import express from "express";
 import cors from "cors";
-import formRouter from "./routes/forms.js";
+import formRouter from "./routes/forms.route.js";
 
 const app = express();
 

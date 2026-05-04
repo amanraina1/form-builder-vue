@@ -1,53 +1,45 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Get a free hosted Postgres database in seconds: `npx create-db`
-
 generator client {
-  provider = "prisma-client"
-  output   = "../generated/prisma"
+  provider = "prisma-client-js"
 }
 
 datasource db {
   provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model Form {
-  id          Int         @id @default(autoincrement())
-  name        String
-  description String?
-  isActive    Boolean     @default(true)
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime
-
-  fields      FormField[]
-  submissions  FormSubmission[]
+  id             Int              @id @default(autoincrement())
+  name           String
+  description    String?
+  is_active      Boolean          @default(true)
+  created_at     DateTime         @default(now())
+  updated_at     DateTime
+  FormField      FormField[]
+  FormSubmission FormSubmission[]
 }
 
 model FormField {
-  id Int @id @default(autoincrement())
-  formId Int
-  label String
-  name String
-  dataType String
+  id          Int      @id @default(autoincrement())
+  form_id     Int
+  name        String
+  label       String
+  dataType    String
   placeholder String?
-  helpText String?
-  options Json?
-  validation Json?
-  isRequired Boolean @default(false)
-  position Int
-  createdAt DateTime @default(now())
-  updatedAt DateTime
-
-  form Form @relation(fields: [formId], references: [id], onDelete: Cascade)
+  help_text   String?
+  options     Json?
+  validation  Json?
+  is_required Boolean  @default(false)
+  position    Int      @default(0)
+  created_at  DateTime @default(now())
+  updated_at  DateTime
+  Form        Form     @relation(fields: [form_id], references: [id], onDelete: Cascade)
 }
 
 model FormSubmission {
-  id Int @id @default(autoincrement())
-  formId Int
-  data Json
-  createdAt DateTime @default(now())
-  updatedAt DateTime
-
-  form Form @relation(fields: [formId], references: [id], onDelete: Cascade)
+  id          Int      @id @default(autoincrement())
+  form_id     Int
+  data        Json
+  created_ats DateTime @default(now())
+  updated_at  DateTime
+  Form        Form     @relation(fields: [form_id], references: [id], onDelete: Cascade)
 }
