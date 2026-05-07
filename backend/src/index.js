@@ -5,7 +5,7 @@ import formRouter from "./routes/forms.route.js";
 
 const app = express();
 
-app.use(cors({ origin: process.env.CLIENT_ORIGIN || "http://localhost:5174" }));
+app.use(cors({ origin: process.env.CLIENT_ORIGIN || "http://localhost:5173" }));
 app.use(express.json());
 
 app.use("/api/forms", formRouter);
