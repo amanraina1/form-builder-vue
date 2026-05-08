@@ -60,8 +60,3 @@ axios
     </ul>
   </div>
 </template>
-<style>
-.main-wrapper {
-  max-width: 1280px;
-}
-</style>
