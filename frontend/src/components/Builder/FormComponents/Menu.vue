@@ -69,7 +69,7 @@ const clonedElement = (data) => {
 </script>
 
 <template>
-  <div class="main-wrapper bg-slate-50 p-4 rounded-lg">
+  <div class="bg-slate-50 p-4 rounded-lg max-h-max">
     <header class="mb-3">
       <p class="font-bold">Add fields</p>
     </header>
