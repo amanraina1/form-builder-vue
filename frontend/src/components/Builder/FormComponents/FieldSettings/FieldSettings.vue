@@ -13,7 +13,7 @@ defineProps({
     </header>
 
     <div class="field-settings-body">
-      <SimpleFieldSettings field-type="email" />
+      <SimpleFieldSettings fieldType="select" />
     </div>
   </div>
 </template>
