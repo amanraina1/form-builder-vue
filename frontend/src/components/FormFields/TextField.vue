@@ -1,4 +1,5 @@
 <script setup>
+import { ref } from "vue";
 defineProps({
   placeholder: { type: String, default: "" },
   type: { type: String, default: "text" },
@@ -6,7 +7,10 @@ defineProps({
   label: { type: String, required: true },
   description: { type: String, defualt: "" },
   value: { type: [String, Number], default: "" },
+  onChange: { type: Function, required: true },
 });
+
+const changedValue = ref("");
 </script>
 
 <template>
@@ -26,6 +30,8 @@ defineProps({
         :name="name"
         :id="name"
         :value="value"
+        v-model="changedValue"
+        @input="onChange(changedValue, name)"
         class="block min-w-0 grow py-1.5 pr-3 pl-1 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none sm:text-sm/6"
         :placeholder="placeholder"
       />

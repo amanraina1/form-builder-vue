@@ -4,10 +4,12 @@ import draggable from "vuedraggable";
 import Fields from "./Fields.vue";
 
 const props = defineProps({
-  fieldsList: { type: Object, default: () => ({}) },
+  fieldsList: { type: Object, default: () => [] },
 });
 
-const originalList = computed(() => props.fieldsList);
+const originalList = computed(() => {
+  return props.fieldsList;
+});
 
 const dragOptions = computed(() => {
   return {

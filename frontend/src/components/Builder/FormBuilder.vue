@@ -8,11 +8,18 @@ import Checkbox from "../FormFields/Checkbox.vue";
 import { useStore } from "vuex";
 const store = useStore();
 
-const fieldsList = ref([]);
+// const fieldsList = ref([]);
 
 const activeField = computed(() => store.getters.getActiveField);
-
-// watch(fieldsList.value, (nv) => {
+const fieldsList = computed({
+  get() {
+    return store.getters.getFormFields;
+  },
+  set(value) {
+    store.commit("updateFormDetails", value);
+  },
+});
+// watch(fieldsList, (nv) => {
 //   console.log(nv);
 // });
 
@@ -50,7 +57,7 @@ const activeField = computed(() => store.getters.getActiveField);
 
       <div class="min-h-100 col-span-5 px-4 bg-slate-50">
         <header class="mb-3 border-bottom border-b">
-          <p class="font-bold px-4 py-2">Field Data</p>
+          <p class="font-bold px-4 py-2">Form fields</p>
         </header>
         <div
           v-if="fieldsList.length === 0"
