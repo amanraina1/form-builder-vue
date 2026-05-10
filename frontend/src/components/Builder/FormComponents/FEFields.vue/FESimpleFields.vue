@@ -40,7 +40,7 @@ const activeField = computed(() => store.getters.getActiveField);
         :disabled="true"
         type="text"
         :name="fieldData.name"
-        placeholder="Short text"
+        :placeholder="fieldData.placeholder"
         class="col-span-7 rounded-sm grow py-1.5 pr-3 pl-1 text-base text-gray-900 outline-1 placeholder:text-gray-400 sm:text-sm/6"
       />
 
@@ -50,13 +50,16 @@ const activeField = computed(() => store.getters.getActiveField);
       >
         <i class="fas fa-trash text-xs"></i>
       </button>
+
+      <small class="text-gray-500 w-100" v-if="fieldData.help_text"
+        ><i class="fas fa-circle-info"></i> {{ fieldData.help_text }}</small
+      >
     </div>
 
     <div
       v-else-if="fieldData.type === 'textarea'"
       :class="{
-        'shadow-2xl outline outline-blue-500':
-          activeField?.id === fieldData?.id,
+        'shadow outline outline-blue-500': activeField?.id === fieldData?.id,
       }"
       class="grid grid-cols-10 items-center input-field bg-slate-50 rounded-xl p-2"
     >
@@ -64,7 +67,7 @@ const activeField = computed(() => store.getters.getActiveField);
         @click="addActiveField(fieldData)"
         :for="fieldData.name"
         class="col-span-2 text-sm/6 font-medium text-gray-900"
-        >Multi Line</label
+        >{{ fieldData.label }}</label
       >
       <input
         @click="addActiveField(fieldData)"
@@ -72,7 +75,7 @@ const activeField = computed(() => store.getters.getActiveField);
         :disabled="true"
         type="text"
         :name="fieldData.name"
-        placeholder="Short text"
+        :placeholder="fieldData.placeholder"
         class="col-span-7 rounded-sm grow py-1.5 pr-3 pl-1 text-base text-gray-900 outline-1 placeholder:text-gray-400 sm:text-sm/6"
       />
 
@@ -82,6 +85,10 @@ const activeField = computed(() => store.getters.getActiveField);
       >
         <i class="fas fa-trash text-xs"></i>
       </button>
+
+      <small class="text-gray-500 w-100" v-if="fieldData.help_text"
+        ><i class="fas fa-circle-info"></i> {{ fieldData.help_text }}</small
+      >
     </div>
 
     <div
@@ -97,7 +104,7 @@ const activeField = computed(() => store.getters.getActiveField);
         @click="addActiveField(fieldData)"
         :for="fieldData.name"
         class="col-span-2 text-sm/6 font-medium text-gray-900"
-        >Number</label
+        >{{ fieldData.label }}</label
       >
       <input
         @click="addActiveField(fieldData)"
@@ -105,7 +112,7 @@ const activeField = computed(() => store.getters.getActiveField);
         :disabled="true"
         type="text"
         :name="fieldData.name"
-        placeholder="Integer"
+        :placeholder="fieldData.placeholder"
         class="col-span-7 rounded-sm py-1.5 pr-3 pl-1 text-base text-gray-900 outline-1 placeholder:text-gray-400 sm:text-sm/6"
       />
 
@@ -115,6 +122,10 @@ const activeField = computed(() => store.getters.getActiveField);
       >
         <i class="fas fa-trash text-xs"></i>
       </button>
+
+      <small class="text-gray-500 w-100" v-if="fieldData.help_text"
+        ><i class="fas fa-circle-info"></i> {{ fieldData.help_text }}</small
+      >
     </div>
 
     <div
@@ -129,7 +140,7 @@ const activeField = computed(() => store.getters.getActiveField);
         @click="addActiveField(fieldData)"
         :for="fieldData.name"
         class="col-span-2 text-sm/6 font-medium text-gray-900"
-        >Email</label
+        >{{ fieldData.label }}</label
       >
       <input
         @click="addActiveField(fieldData)"
@@ -137,7 +148,7 @@ const activeField = computed(() => store.getters.getActiveField);
         :disabled="true"
         type="text"
         :name="fieldData.name"
-        placeholder="email@example.com"
+        :placeholder="fieldData.placeholder"
         class="col-span-7 rounded-sm py-1.5 pr-3 pl-1 text-base text-gray-900 outline-1 placeholder:text-gray-400 sm:text-sm/6"
       />
 
@@ -147,6 +158,10 @@ const activeField = computed(() => store.getters.getActiveField);
       >
         <i class="fas fa-trash text-xs"></i>
       </button>
+
+      <small class="text-gray-500 w-100" v-if="fieldData.help_text"
+        ><i class="fas fa-circle-info"></i> {{ fieldData.help_text }}</small
+      >
     </div>
 
     <div
@@ -155,13 +170,13 @@ const activeField = computed(() => store.getters.getActiveField);
         'shadow-2xl outline outline-blue-500':
           activeField?.id === fieldData?.id,
       }"
-      class="grid grid-cols-10 items-center input-field bg-slate-50 rounded-xl mb-4"
+      class="grid grid-cols-10 items-center input-field bg-slate-50 rounded-xl p-1"
     >
       <label
         @click="addActiveField(fieldData)"
         :for="fieldData.name"
         class="col-span-2 text-sm/6 font-medium text-gray-900"
-        >Date</label
+        >{{ fieldData.label }}</label
       >
       <input
         @click="addActiveField(fieldData)"
@@ -169,7 +184,7 @@ const activeField = computed(() => store.getters.getActiveField);
         :disabled="true"
         type="text"
         :name="fieldData.name"
-        placeholder="Date"
+        :placeholder="fieldData.placeholder"
         class="col-span-7 rounded-sm grow py-1.5 pr-3 pl-1 text-base text-gray-900 outline-1 placeholder:text-gray-400 sm:text-sm/6"
       />
 
@@ -179,6 +194,9 @@ const activeField = computed(() => store.getters.getActiveField);
       >
         <i class="fas fa-trash text-xs"></i>
       </button>
+      <small class="text-gray-500 w-100" v-if="fieldData.help_text"
+        ><i class="fas fa-circle-info"></i> {{ fieldData.help_text }}</small
+      >
     </div>
 
     <div
@@ -187,13 +205,13 @@ const activeField = computed(() => store.getters.getActiveField);
         'shadow-2xl outline outline-blue-500':
           activeField?.id === fieldData?.id,
       }"
-      class="grid grid-cols-10 items-center input-field bg-slate-50 rounded-xl mb-4"
+      class="grid grid-cols-10 items-center input-field bg-slate-50 rounded-xl p-1"
     >
       <label
         @click="addActiveField(fieldData)"
         :for="fieldData.name"
         class="col-span-2 text-sm/6 font-medium text-gray-900"
-        >Select</label
+        >{{ fieldData.label }}</label
       >
       <input
         @click="addActiveField(fieldData)"
@@ -201,7 +219,7 @@ const activeField = computed(() => store.getters.getActiveField);
         :disabled="true"
         type="text"
         :name="fieldData.name"
-        placeholder="Select Option"
+        :placeholder="fieldData.placeholder"
         class="col-span-7 rounded-sm grow py-1.5 pr-3 pl-1 text-base text-gray-900 outline-1 placeholder:text-gray-400 sm:text-sm/6"
       />
       <button
@@ -210,6 +228,9 @@ const activeField = computed(() => store.getters.getActiveField);
       >
         <i class="fas fa-trash text-xs"></i>
       </button>
+      <small class="text-gray-500 w-100" v-if="fieldData.help_text"
+        ><i class="fas fa-circle-info"></i> {{ fieldData.help_text }}</small
+      >
     </div>
 
     <div
@@ -218,13 +239,13 @@ const activeField = computed(() => store.getters.getActiveField);
         'shadow-2xl outline outline-blue-500':
           activeField?.id === fieldData?.id,
       }"
-      class="grid grid-cols-10 items-center input-field bg-slate-50 rounded-xl mb-4"
+      class="grid grid-cols-10 items-center input-field bg-slate-50 rounded-xl p-1"
     >
       <label
         @click="addActiveField(fieldData)"
         :for="fieldData.name"
         class="col-span-2 text-sm/6 font-medium text-gray-900"
-        >Multi Select</label
+        >{{ fieldData.label }}</label
       >
       <input
         @click="addActiveField(fieldData)"
@@ -232,7 +253,7 @@ const activeField = computed(() => store.getters.getActiveField);
         :disabled="true"
         type="text"
         :name="fieldData.name"
-        placeholder="Multi Select"
+        :placeholder="fieldData.placeholder"
         class="col-span-7 rounded-sm grow py-1.5 pr-3 pl-1 text-base text-gray-900 outline-1 placeholder:text-gray-400 sm:text-sm/6"
       />
       <button
@@ -241,6 +262,10 @@ const activeField = computed(() => store.getters.getActiveField);
       >
         <i class="fas fa-trash text-xs"></i>
       </button>
+
+      <small class="text-gray-500 w-100" v-if="fieldData.help_text"
+        ><i class="fas fa-circle-info"></i> {{ fieldData.help_text }}</small
+      >
     </div>
 
     <div
@@ -255,15 +280,19 @@ const activeField = computed(() => store.getters.getActiveField);
         @click="addActiveField(fieldData)"
         :for="fieldData.name"
         class="col-span-2 text-sm/6 font-medium text-gray-900"
-        >Radio</label
+        >{{ fieldData.label }}</label
       >
       <div class="col-span-7" @click="addActiveField(fieldData)">
-        <input
-          :id="fieldData.name"
-          type="radio"
-          :name="fieldData.name"
-          class="py-1.5 pr-3 pl-1 sm:text-sm/6"
-        />
+        <div v-for="option in fieldData.options">
+          <input
+            :id="fieldData.name"
+            type="radio"
+            :name="fieldData.name"
+            class="mr-2 sm:text-sm/6"
+            :disabled="true"
+          />
+          <label>{{ option.label }}</label>
+        </div>
       </div>
       <button
         @click="removeField(fieldData.id)"
@@ -271,6 +300,9 @@ const activeField = computed(() => store.getters.getActiveField);
       >
         <i class="fas fa-trash text-xs"></i>
       </button>
+      <small class="text-gray-500 w-100" v-if="fieldData.help_text"
+        ><i class="fas fa-circle-info"></i> {{ fieldData.help_text }}</small
+      >
     </div>
 
     <div
@@ -288,12 +320,16 @@ const activeField = computed(() => store.getters.getActiveField);
         >Checkbox</label
       >
       <div class="col-span-7" @click="addActiveField(fieldData)">
-        <input
-          :id="fieldData.name"
-          type="checkbox"
-          :name="fieldData.name"
-          class="py-1.5 pr-3 pl-1 sm:text-sm/6"
-        />
+        <div v-for="option in fieldData.options">
+          <input
+            :id="fieldData.name"
+            type="checkbox"
+            :name="fieldData.name"
+            class="mr-2 sm:text-sm/6"
+            :disabled="true"
+          />
+          <label>{{ option.label }}</label>
+        </div>
       </div>
       <button
         @click="removeField(fieldData.id)"
@@ -301,6 +337,9 @@ const activeField = computed(() => store.getters.getActiveField);
       >
         <i class="fas fa-trash text-xs"></i>
       </button>
+      <small class="text-gray-500 w-100" v-if="fieldData.help_text"
+        ><i class="fas fa-circle-info"></i> {{ fieldData.help_text }}</small
+      >
     </div>
   </div>
 </template>

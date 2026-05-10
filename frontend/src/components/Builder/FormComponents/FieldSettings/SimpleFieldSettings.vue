@@ -2,30 +2,59 @@
 import { computed, ref } from "vue";
 import Checkbox from "../../../FormFields/Checkbox.vue";
 import TextField from "../../../FormFields/TextField.vue";
+import { useStore } from "vuex";
+const store = useStore();
 
 const props = defineProps({
   activeField: { type: Object, default: () => ({}) },
 });
 
-const options = ref([
-  { id: Math.random(), label: "Option 1", value: "option_1" },
-  { id: Math.random(), label: "Option 2", value: "option_2" },
-]);
+const fieldValues = computed(() => props.activeField);
+const onChange = (value, name) => {
+  store.commit("updateActiveField", { name, value });
+};
+const validationChange = (value, name) => {
+  if (name === "min_validation") {
+    onChange(
+      { min: value, max: fieldValues.value.validation.max },
+      "validation",
+    );
+  } else {
+    onChange(
+      { max: value, min: fieldValues.value.validation.min },
+      "validation",
+    );
+  }
+};
 
 const addOption = () => {
+  // we need to add validation so that user cannot have two entries with same value
   const option = {
     id: Math.random(),
-    label: `Option ${options.value.length + 1}`,
-    value: `option_${options.value.length + 1}`,
+    label: `Option ${fieldValues.value.options.length + 1}`,
+    value: `option_${fieldValues.value.options.length + 1}`,
   };
-  options.value.push(option);
+  onChange([...fieldValues.value.options, option], "options");
 };
 
 const removeOption = (id) => {
-  options.value = options.value.filter((option) => option.id !== id);
+  let allOptions = [...fieldValues.value.options];
+  allOptions = allOptions.filter((option) => option.id !== id);
+  onChange(allOptions, "options");
 };
 
-const fieldType = computed(() => props.activeField?.type);
+const optionChanges = (val, name) => {
+  const id = +name.substring(6);
+  let allOptions = [...fieldValues.value.options];
+  const optionFind = allOptions.find((option) => option.id === id);
+  if (name.includes("label")) {
+    optionFind.label = val;
+  } else {
+    optionFind.value = val;
+  }
+
+  onChange(allOptions, "options");
+};
 </script>
 
 <template>
@@ -35,42 +64,73 @@ const fieldType = computed(() => props.activeField?.type);
     </template>
 
     <template v-else>
-      <TextField name="Label" label="Label" placeholder="Enter Label" />
-
       <TextField
-        name="Field name"
-        label="Field name (key)"
-        placeholder="e.g. first_name"
-        description="Used as the data key. Letters, numbers and underscores only"
+        name="label"
+        label="Label"
+        placeholder="Enter Label"
+        :value="fieldValues?.label"
+        :onChange="onChange"
       />
 
       <TextField
+        name="field_name"
+        label="Field name (key)"
+        placeholder="e.g. first_name"
+        description="Used as the data key. Letters, numbers and underscores only"
+        :value="fieldValues?.field_name"
+        :onChange="onChange"
+      />
+
+      <TextField
+        v-if="!['checkbox', 'radio'].includes(fieldValues?.type)"
         name="placeholder"
         label="Placeholder"
         placeholder="Placeholder"
+        :value="fieldValues?.placeholder"
+        :onChange="onChange"
       />
 
       <TextField
         name="help_text"
         label="Help text"
         placeholder="e.g. Enter Name"
+        :value="fieldValues?.help_text"
+        :onChange="onChange"
       />
 
-      <Checkbox label="Required field" class="mb-2" />
+      <Checkbox
+        name="required"
+        label="Required field"
+        class="mb-2"
+        :value="fieldValues.required"
+        :onChange="onChange"
+      />
 
-      <template v-if="['text', 'textarea', 'number'].includes(fieldType)">
+      <template
+        v-if="['text', 'textarea', 'number'].includes(fieldValues?.type)"
+      >
         <TextField
-          name="validation"
+          name="min_validation"
           label="Validation"
           type="number"
           placeholder="Min length"
+          :value="fieldValues.validation.min"
+          :onChange="validationChange"
         />
-        <TextField name="validation" type="number" placeholder="Max length" />
+        <TextField
+          name="max_validation"
+          type="number"
+          placeholder="Max length"
+          :value="fieldValues.validation.max"
+          :onChange="validationChange"
+        />
       </template>
 
       <template
         v-if="
-          ['radio', 'select', 'multiselect', 'checkbox'].includes(fieldType)
+          ['radio', 'select', 'multiselect', 'checkbox'].includes(
+            fieldValues?.type,
+          )
         "
       >
         <label for="options" class="block font-bold text-sm/6 text-gray-900"
@@ -78,21 +138,24 @@ const fieldType = computed(() => props.activeField?.type);
         >
 
         <div
-          v-for="option in options"
+          v-for="option in fieldValues.options"
+          :key="option.id"
           class="grid grid-cols-5 items-center gap-3"
           id="options"
         >
           <TextField
-            :name="option.label"
+            :name="`label_${option.id}`"
             class="col-span-2"
             :placeholder="option.label"
             :value="option.label"
+            :onChange="optionChanges"
           />
           <TextField
-            :name="option.value"
+            :name="`value_${option.id}`"
             class="col-span-2"
             :placeholder="option.value"
             :value="option.value"
+            :onChange="optionChanges"
           />
           <button
             @click="removeOption(option.id)"

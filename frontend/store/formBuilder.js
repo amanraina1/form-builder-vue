@@ -27,6 +27,12 @@ const mutations = {
       state.activeField = {};
     }
   },
+  updateActiveField(state, data) {
+    if (state.activeField) {
+      state.activeField[data.name] = data.value;
+    }
+    // console.log(state.formFields);
+  },
 };
 
 export default { state, getters, mutations };

@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from "vue";
-defineProps({
+const props = defineProps({
   placeholder: { type: String, default: "" },
   type: { type: String, default: "text" },
   name: { type: String, required: true },
@@ -10,7 +10,7 @@ defineProps({
   onChange: { type: Function, required: true },
 });
 
-const changedValue = ref("");
+const changedValue = ref(props.value);
 </script>
 
 <template>

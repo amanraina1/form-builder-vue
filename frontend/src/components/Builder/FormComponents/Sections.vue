@@ -32,5 +32,6 @@ const dragOptions = computed(() => {
 .ghost {
   border-radius: 20px;
   width: 50%;
+  opacity: 0.5;
 }
 </style>
