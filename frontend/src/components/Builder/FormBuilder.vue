@@ -1,31 +1,41 @@
 <script setup>
-import { ref } from "vue";
+import { computed, ref, watch } from "vue";
 import Menu from "./FormComponents/Menu.vue";
 import Sections from "./FormComponents/Sections.vue";
 import TextField from "../FormFields/TextField.vue";
 import FieldSettings from "./FormComponents/FieldSettings/FieldSettings.vue";
+import Checkbox from "../FormFields/Checkbox.vue";
+import { useStore } from "vuex";
+const store = useStore();
 
 const fieldsList = ref([]);
+
+const activeField = computed(() => store.getters.getActiveField);
+
+// watch(fieldsList.value, (nv) => {
+//   console.log(nv);
+// });
+
+// watch(activeField, (nv) => {
+//   console.log(nv);
+// });
 </script>
 
 <template>
-  <div class="main-wrapper mx-auto p-10 basic-details">
+  <div class="main-wrapper mx-auto py-4 basic-details">
     <header class="flex justify-between items-center">
       <h1 class="font-bold text-2xl">New Form</h1>
-      <span>
-        <span class="mr-4">
-          <input type="checkbox" class="mr-2" />
-          <label>Active</label>
-        </span>
+      <div class="flex items-center gap-4">
+        <Checkbox label="Active" />
         <button
           class="bg-blue-700 hover:bg-blue-900 text-white font-bold py-2 px-5 rounded-xl cursor-pointer"
         >
           Save form
         </button>
-      </span>
+      </div>
     </header>
 
-    <div class="bg-white p-4 my-8 rounded-xl">
+    <div class="bg-white p-4 my-2 rounded-xl">
       <TextField name="formName" label="Form name" />
 
       <TextField
@@ -55,7 +65,7 @@ const fieldsList = ref([]);
         <Sections :fieldsList="fieldsList" />
       </div>
 
-      <FieldSettings fieldType="text" class="col-span-3" />
+      <FieldSettings :activeField="activeField" class="col-span-3" />
     </div>
   </div>
 </template>

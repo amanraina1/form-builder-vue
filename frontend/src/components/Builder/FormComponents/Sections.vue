@@ -3,9 +3,11 @@ import { ref, computed } from "vue";
 import draggable from "vuedraggable";
 import Fields from "./Fields.vue";
 
-defineProps({
+const props = defineProps({
   fieldsList: { type: Object, default: () => ({}) },
 });
+
+const originalList = computed(() => props.fieldsList);
 
 const dragOptions = computed(() => {
   return {
@@ -17,7 +19,7 @@ const dragOptions = computed(() => {
 </script>
 
 <template>
-  <draggable v-bind="dragOptions" :list="fieldsList" class="min-h-100">
+  <draggable v-bind="dragOptions" :list="originalList" class="min-h-100">
     <template #item="{ element, index }">
       <Fields :fieldData="element" :key="index" />
     </template>

@@ -75,7 +75,7 @@ const createForm = async (req, res) => {
         });
       }
 
-      // 3rd step -> return the that was just created to send back in response
+      // 3rd step -> return the form that was just created to send back in response
       return tx.form.findUnique({
         where: { id: created.id },
         include: { FormField: { orderBy: { position: "asc" } } },

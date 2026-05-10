@@ -1,12 +1,20 @@
 <script setup>
+import { useStore } from "vuex";
+const store = useStore();
+
 defineProps({
   fieldData: { type: Object, default: () => ({}) },
 });
+
+const addActiveField = (field) => {
+  store.commit("addActiveField", field);
+};
 </script>
 
 <template>
   <div
     v-if="fieldData.type === 'text'"
+    @click="addActiveField(fieldData)"
     class="grid grid-cols-10 items-center input-field bg-slate-50 rounded-xl mb-4"
   >
     <label
@@ -26,6 +34,7 @@ defineProps({
 
   <div
     v-else-if="fieldData.type === 'textarea'"
+    @click="addActiveField(fieldData)"
     class="grid grid-cols-10 items-center input-field bg-slate-50 rounded-xl mb-4"
   >
     <label
@@ -45,6 +54,7 @@ defineProps({
 
   <div
     v-else-if="fieldData.type === 'number'"
+    @click="addActiveField(fieldData)"
     class="grid grid-cols-10 items-center input-field bg-slate-50 rounded-xl mb-4"
   >
     <label
@@ -64,6 +74,7 @@ defineProps({
 
   <div
     v-else-if="fieldData.type === 'email'"
+    @click="addActiveField(fieldData)"
     class="grid grid-cols-10 items-center input-field bg-slate-50 rounded-xl mb-4"
   >
     <label
@@ -83,6 +94,7 @@ defineProps({
 
   <div
     v-else-if="fieldData.type === 'date'"
+    @click="addActiveField(fieldData)"
     class="grid grid-cols-10 items-center input-field bg-slate-50 rounded-xl mb-4"
   >
     <label
@@ -102,6 +114,7 @@ defineProps({
 
   <div
     v-else-if="fieldData.type === 'select'"
+    @click="addActiveField(fieldData)"
     class="grid grid-cols-10 items-center input-field bg-slate-50 rounded-xl mb-4"
   >
     <label
@@ -121,6 +134,7 @@ defineProps({
 
   <div
     v-else-if="fieldData.type === 'multiselect'"
+    @click="addActiveField(fieldData)"
     class="grid grid-cols-10 items-center input-field bg-slate-50 rounded-xl mb-4"
   >
     <label
@@ -140,6 +154,7 @@ defineProps({
 
   <div
     v-else-if="fieldData.type === 'radio'"
+    @click="addActiveField(fieldData)"
     class="grid grid-cols-10 items-center input-field bg-slate-50 rounded-xl mb-4"
   >
     <label
@@ -159,6 +174,7 @@ defineProps({
 
   <div
     v-else-if="fieldData.type === 'checkbox'"
+    @click="addActiveField(fieldData)"
     class="grid grid-cols-10 items-center input-field bg-slate-50 rounded-xl mb-4"
   >
     <label
