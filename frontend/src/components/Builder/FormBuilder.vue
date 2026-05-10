@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref, watch } from "vue";
+import { computed, ref, reactive, watch } from "vue";
 import Menu from "./FormComponents/Menu.vue";
 import Sections from "./FormComponents/Sections.vue";
 import TextField from "../FormFields/TextField.vue";
@@ -7,8 +7,6 @@ import FieldSettings from "./FormComponents/FieldSettings/FieldSettings.vue";
 import Checkbox from "../FormFields/Checkbox.vue";
 import { useStore } from "vuex";
 const store = useStore();
-
-// const fieldsList = ref([]);
 
 const activeField = computed(() => store.getters.getActiveField);
 const fieldsList = computed({
@@ -19,13 +17,16 @@ const fieldsList = computed({
     store.commit("updateFormDetails", value);
   },
 });
-// watch(fieldsList, (nv) => {
-//   console.log(nv);
-// });
 
-// watch(activeField, (nv) => {
-//   console.log(nv);
-// });
+const form = reactive({
+  name: "",
+  description: "",
+  isActive: true,
+});
+const saveFields = () => {};
+const onChange = (value, name) => {
+  form[name] = value;
+};
 </script>
 
 <template>
@@ -33,8 +34,14 @@ const fieldsList = computed({
     <header class="flex justify-between items-center">
       <h1 class="font-bold text-2xl">New Form</h1>
       <div class="flex items-center gap-4">
-        <Checkbox label="Active" />
+        <Checkbox
+          name="isActive"
+          :onChange="onChange"
+          :value="form.isActive"
+          label="Active"
+        />
         <button
+          @click="saveFields"
           class="bg-blue-700 hover:bg-blue-900 text-white font-bold py-2 px-5 rounded-xl cursor-pointer"
         >
           Save form
@@ -43,10 +50,17 @@ const fieldsList = computed({
     </header>
 
     <div class="bg-white p-4 my-2 rounded-xl">
-      <TextField name="formName" label="Form name" />
+      <TextField
+        name="name"
+        :value="form.name"
+        :onChange="onChange"
+        label="Form name"
+      />
 
       <TextField
         type="textarea"
+        :value="form.description"
+        :onChange="onChange"
         name="description"
         label="Description (Optional)"
       />

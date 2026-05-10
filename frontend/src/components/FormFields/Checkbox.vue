@@ -14,8 +14,8 @@ const changedValue = ref(props.value);
   <div class="flex gap-2">
     <input
       type="checkbox"
-      :checked="changedValue"
-      @input="onChange(changedValue, name)"
+      v-model="changedValue"
+      @change="onChange(changedValue, name)"
       :name="name"
       :id="name"
       class="sm:text-sm/6"
