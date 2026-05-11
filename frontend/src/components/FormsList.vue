@@ -2,6 +2,9 @@
 import { ref, onMounted } from "vue";
 import axios from "axios";
 import Loader from "./Mini/Loader.vue";
+import { useStore } from "vuex";
+import Alert from "./Mini/Alert.vue";
+const store = useStore();
 
 const formsList = ref([]);
 const loading = ref(false);
@@ -14,7 +17,7 @@ const getForms = async () => {
     const res = await axios.get("/api/forms");
     formsList.value = res.data.data;
   } catch (e) {
-    console.log(e);
+    store.commit("setAlert", { type: "danger", message: e.message });
   } finally {
     loading.value = false;
   }
@@ -27,7 +30,7 @@ const deleteForm = async (id) => {
     await axios.delete(`/api/forms/${id}`);
     setTimeout(getForms, 1500);
   } catch (e) {
-    console.log(e);
+    store.commit("setAlert", { type: "danger", message: e.message });
   } finally {
     loading.value = false;
   }
@@ -37,7 +40,8 @@ onMounted(getForms);
 </script>
 
 <template>
-  <div class="main-wrapper p-10 mx-auto">
+  <div class="main-wrapper px-10 py-3 mx-auto">
+    <Alert />
     <header class="flex justify-between items-center">
       <div>
         <h2 class="text-3xl font-bold">Forms</h2>

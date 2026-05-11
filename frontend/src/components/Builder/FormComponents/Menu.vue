@@ -1,6 +1,10 @@
 <script setup>
 import { ref } from "vue";
 import draggable from "vuedraggable";
+import { useStore } from "vuex";
+const store = useStore();
+
+const defaultId = ref("");
 
 const FIELD_TYPES = ref([
   {
@@ -135,8 +139,22 @@ const FIELD_TYPES = ref([
 
 const clonedElement = (data) => {
   const cloned = JSON.parse(JSON.stringify(data));
-  cloned.id = Date.now();
+  // this id needs to be be added in the cloned element, so that there should be a
+  // differentiating factor when we select, other wise if id is same,
+  // then it will not be able to select the specific field
+  defaultId.value = Date.now();
+  cloned.id = defaultId.value;
   return cloned;
+};
+
+const onDrop = (e) => {
+  if (e.to !== e.from) {
+    const itemId = e.item.__draggable_context.element.id;
+    const findField = FIELD_TYPES.value.find((item) => item.id === itemId);
+    // this id needs to be added also in the store, so that the object id identical in the store and field data
+    findField.id = defaultId.value;
+    store.commit("addActiveField", findField);
+  }
 };
 </script>
 
@@ -152,6 +170,7 @@ const clonedElement = (data) => {
       itemKey="id"
       :sort="false"
       :clone="clonedElement"
+      @end="onDrop"
       :group="{ name: 'form-builder', pull: 'clone', put: false }"
     >
       <template #item="{ element }">

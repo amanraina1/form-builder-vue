@@ -1,10 +1,12 @@
 import { createStore } from "vuex";
 
-import formBuilder from "./formBuilder";
+import formBuilder from "./modules/formBuilder.js";
+import alert from "./modules/alert.js";
 
 const store = createStore({
   modules: {
     formBuilder,
+    alert,
   },
 });
 
