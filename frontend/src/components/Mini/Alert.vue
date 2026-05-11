@@ -11,7 +11,7 @@ const classname = computed(() => {
 });
 
 const bgClass = computed(() => {
-  return alertType.value === "success" ? "bg-green-200" : "bg-red-200";
+  return alertType.value === "success" ? "bg-green-200/50" : "bg-red-200/50";
 });
 
 const dismiss = () => {

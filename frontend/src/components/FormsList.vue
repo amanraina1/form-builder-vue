@@ -4,6 +4,7 @@ import axios from "axios";
 import Loader from "./Mini/Loader.vue";
 import { useStore } from "vuex";
 import Alert from "./Mini/Alert.vue";
+import { errorHandler, successHandler } from "../helpers/responseHandler.js";
 const store = useStore();
 
 const formsList = ref([]);
@@ -17,7 +18,7 @@ const getForms = async () => {
     const res = await axios.get("/api/forms");
     formsList.value = res.data.data;
   } catch (e) {
-    store.commit("setAlert", { type: "danger", message: e.message });
+    errorHandler(e.message);
   } finally {
     loading.value = false;
   }
@@ -27,10 +28,11 @@ const deleteForm = async (id) => {
   message.value = "Deleting the form... 👀";
   loading.value = true;
   try {
-    await axios.delete(`/api/forms/${id}`);
-    setTimeout(getForms, 1500);
+    const res = await axios.delete(`/api/forms/${id}`);
+    successHandler(res.data.message);
+    getForms();
   } catch (e) {
-    store.commit("setAlert", { type: "danger", message: e.message });
+    errorHandler(e.message);
   } finally {
     loading.value = false;
   }
@@ -57,7 +59,7 @@ onMounted(getForms);
       </router-link>
     </header>
 
-    <Loader :message="message" v-if="loading" />
+    <Loader v-if="loading" :message="message" />
 
     <ul v-else>
       <li
@@ -72,11 +74,14 @@ onMounted(getForms);
           </span>
         </span>
         <span>
-          <button
-            class="mr-2 bg-transparent hover:bg-gray-500/10 text-gray-500 font-semibold py-1 px-4 border border-gray-500 rounded-xl transition-all cursor-pointer"
-          >
-            Edit
-          </button>
+          <router-link :to="`/builder/edit/${form.id}`">
+            <button
+              class="mr-2 bg-transparent hover:bg-gray-500/10 text-gray-500 font-semibold py-1 px-4 border border-gray-500 rounded-xl transition-all cursor-pointer"
+            >
+              Edit
+            </button>
+          </router-link>
+
           <button
             class="mr-2 bg-transparent hover:bg-gray-500/10 text-gray-500 font-semibold py-1 px-4 border border-gray-500 rounded-xl transition-all cursor-pointer"
           >

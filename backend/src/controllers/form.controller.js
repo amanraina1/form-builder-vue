@@ -19,7 +19,7 @@ const fieldData = (field, position) => {
     name: field.name,
     dataType: field.dataType,
     placeholder: field.placeholder ?? null,
-    helpText: field.help_text ?? null,
+    helpText: field.helpText ?? null,
     options: field.options ?? null,
     validation: field.validation ?? null,
     isRequired: field.isRequired ?? false,
@@ -36,7 +36,9 @@ const getAllForms = async (req, res) => {
         _count: { select: { fields: true, submissions: true } },
       },
     });
-    res.status(200).json({ success: true, data: forms.map(reshapeForms) });
+    return res
+      .status(200)
+      .json({ success: true, data: forms.map(reshapeForms) });
   } catch (e) {}
 };
 
@@ -45,10 +47,10 @@ const getFormById = async (req, res) => {
     const id = Number(req.params.id);
     const form = await prisma.form.findUnique({
       where: { id },
-      include: { FormField: { orderBy: { position: "asc" } } },
+      include: { fields: { orderBy: { position: "asc" } } },
     });
     if (!form) return res.status(404).json({ message: "Form not found" });
-    res.status(200).json({ success: true, message: form });
+    return res.status(200).json({ success: true, data: form });
   } catch (e) {}
 };
 
@@ -89,16 +91,18 @@ const createForm = async (req, res) => {
       .status(201)
       .json({ success: true, message: "Form created successfully" });
   } catch (e) {
-    res
-      .status(500)
-      .json({ success: false, message: `Error in creating form: ${e}` });
+    // console.log("Errorrrrrrr ===>>>>", e);
+    res.status(e.status).json({
+      success: false,
+      message: `Error in creating form: ${JSON.stringify(e.errors)}`,
+    });
   }
 };
 
 const updateForm = async (req, res) => {
   try {
     const id = Number(req.params.id);
-    const existingForm = prisma.form.findUnique({ where: { id } });
+    const existingForm = await prisma.form.findUnique({ where: { id } });
 
     if (!existingForm)
       return res
@@ -111,18 +115,18 @@ const updateForm = async (req, res) => {
         where: { id },
         data: {
           name: data.name,
-          is_active: data.is_active,
+          isActive: data.isActive,
           description: data.description ?? null,
         },
       });
 
-      await tx.formField.deleteMany({ where: { form_id: id } });
+      await tx.formField.deleteMany({ where: { formId: id } });
 
       if (data.fields.length) {
         await tx.formField.createMany({
           data: data.fields.map((f, i) => ({
             ...fieldData(f, i),
-            form_id: id,
+            formId: id,
           })),
         });
       }
@@ -132,8 +136,14 @@ const updateForm = async (req, res) => {
         include: { fields: { orderBy: { position: "asc" } } },
       });
     });
-    res.json(form);
-  } catch (e) {}
+    return res.status(200).json({
+      success: true,
+      message: "Form updated successfully...",
+      data: form,
+    });
+  } catch (e) {
+    return res.status(e.status).json({ success: false, message: e.message });
+  }
 };
 
 const deleteForm = async (req, res) => {
@@ -202,6 +212,7 @@ export {
   getAllForms,
   getFormById,
   createForm,
+  updateForm,
   deleteForm,
   formSubmit,
   getFormSubmissions,

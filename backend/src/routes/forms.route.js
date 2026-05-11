@@ -3,6 +3,7 @@ import {
   getAllForms,
   getFormById,
   createForm,
+  updateForm,
   deleteForm,
   formSubmit,
   getFormSubmissions,
@@ -15,6 +16,8 @@ router.get("/", getAllForms);
 router.get("/:id", getFormById);
 
 router.post("/", createForm);
+
+router.post("/:id", updateForm);
 
 router.delete("/:id", deleteForm);
 

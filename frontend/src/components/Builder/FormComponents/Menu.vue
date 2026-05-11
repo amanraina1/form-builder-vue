@@ -15,8 +15,7 @@ const FIELD_TYPES = ref([
     placeholder: "Single Line",
     icon: "fa-solid fa-font",
     isRequired: false,
-    help_text: "",
-    field_name: "",
+    helpText: "",
     validation: {
       min: 1,
       max: 20,
@@ -31,7 +30,6 @@ const FIELD_TYPES = ref([
     icon: "fa-solid fa-paragraph",
     isRequired: false,
     help_text: "",
-    field_name: "",
     validation: {
       min: 1,
       max: 20,
@@ -46,8 +44,7 @@ const FIELD_TYPES = ref([
     placeholder: "Integer",
     icon: "fa-solid fa-hashtag",
     isRequired: false,
-    help_text: "",
-    field_name: "",
+    helpText: "",
     validation: {
       min: 1,
       max: 20,
@@ -60,8 +57,7 @@ const FIELD_TYPES = ref([
     label: "Email",
     placeholder: "email@example.com",
     icon: "fa-solid fa-at",
-    field_name: "",
-    help_text: "",
+    helpText: "",
     isRequired: false,
   },
   {
@@ -71,8 +67,7 @@ const FIELD_TYPES = ref([
     label: "Date",
     placeholder: "Date",
     icon: "fa-solid fa-calendar",
-    field_name: "",
-    help_text: "",
+    helpText: "",
     isRequired: false,
   },
   {
@@ -80,10 +75,9 @@ const FIELD_TYPES = ref([
     name: "select",
     dataType: "select",
     label: "Select",
-    placeholder: "Select ption",
+    placeholder: "Select option",
     icon: "fa-solid fa-angle-down",
-    field_name: "",
-    help_text: "",
+    helpText: "",
     isRequired: false,
     options: [
       { id: Math.random(), label: "Option 1", value: "option_1" },
@@ -97,8 +91,7 @@ const FIELD_TYPES = ref([
     label: "Multi Select",
     placeholder: "Select options",
     icon: "fa-solid fa-align-center",
-    field_name: "",
-    help_text: "",
+    helpText: "",
     isRequired: false,
     options: [
       { id: Math.random(), label: "Option 1", value: "option_1" },
@@ -112,8 +105,7 @@ const FIELD_TYPES = ref([
     label: "Checkbox",
     placeholder: "",
     icon: "fa-solid fa-square-check",
-    field_name: "",
-    help_text: "",
+    helpText: "",
     isRequired: false,
     options: [
       { id: Math.random(), label: "Option 1", value: "option_1" },
@@ -127,8 +119,7 @@ const FIELD_TYPES = ref([
     label: "Radio",
     placeholder: "",
     icon: "fa-solid fa-circle-dot",
-    field_name: "",
-    help_text: "",
+    helpText: "",
     isRequired: false,
     options: [
       { id: Math.random(), label: "Option 1", value: "option_1" },
@@ -148,11 +139,11 @@ const clonedElement = (data) => {
 };
 
 const onDrop = (e) => {
+  // when we drop a new field, it should by default be active
   if (e.to !== e.from) {
-    const itemId = e.item.__draggable_context.element.id;
-    const findField = FIELD_TYPES.value.find((item) => item.id === itemId);
+    const allFields = store.getters.getFormFields;
+    const findField = allFields.find((item) => item.id === defaultId.value);
     // this id needs to be added also in the store, so that the object id identical in the store and field data
-    findField.id = defaultId.value;
     store.commit("addActiveField", findField);
   }
 };

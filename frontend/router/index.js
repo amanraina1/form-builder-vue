@@ -5,6 +5,7 @@ import FormsList from "../src/components/FormsList.vue";
 const routes = [
   { path: "/", component: FormsList },
   { path: "/builder", component: FormBuilder },
+  { path: "/builder/edit/:id", component: FormBuilder },
   //   { path: "/renderer", component: FormRenderer },
 ];
 

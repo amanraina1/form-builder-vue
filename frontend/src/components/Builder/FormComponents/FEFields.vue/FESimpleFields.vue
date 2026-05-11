@@ -16,6 +16,7 @@ const removeField = (id) => {
 };
 
 const activeField = computed(() => store.getters.getActiveField);
+// console.log(activeField);
 </script>
 
 <template>
@@ -51,8 +52,8 @@ const activeField = computed(() => store.getters.getActiveField);
         <i class="fas fa-trash text-xs"></i>
       </button>
 
-      <small class="text-gray-500 w-100" v-if="fieldData.help_text"
-        ><i class="fas fa-circle-info"></i> {{ fieldData.help_text }}</small
+      <small class="text-gray-500 w-100" v-if="fieldData.helpText"
+        ><i class="fas fa-circle-info"></i> {{ fieldData.helpText }}</small
       >
     </div>
 
@@ -86,8 +87,8 @@ const activeField = computed(() => store.getters.getActiveField);
         <i class="fas fa-trash text-xs"></i>
       </button>
 
-      <small class="text-gray-500 w-100" v-if="fieldData.help_text"
-        ><i class="fas fa-circle-info"></i> {{ fieldData.help_text }}</small
+      <small class="text-gray-500 w-100" v-if="fieldData.helpText"
+        ><i class="fas fa-circle-info"></i> {{ fieldData.helpText }}</small
       >
     </div>
 
@@ -123,8 +124,8 @@ const activeField = computed(() => store.getters.getActiveField);
         <i class="fas fa-trash text-xs"></i>
       </button>
 
-      <small class="text-gray-500 w-100" v-if="fieldData.help_text"
-        ><i class="fas fa-circle-info"></i> {{ fieldData.help_text }}</small
+      <small class="text-gray-500 w-100" v-if="fieldData.helpText"
+        ><i class="fas fa-circle-info"></i> {{ fieldData.helpText }}</small
       >
     </div>
 
@@ -159,8 +160,8 @@ const activeField = computed(() => store.getters.getActiveField);
         <i class="fas fa-trash text-xs"></i>
       </button>
 
-      <small class="text-gray-500 w-100" v-if="fieldData.help_text"
-        ><i class="fas fa-circle-info"></i> {{ fieldData.help_text }}</small
+      <small class="text-gray-500 w-100" v-if="fieldData.helpText"
+        ><i class="fas fa-circle-info"></i> {{ fieldData.helpText }}</small
       >
     </div>
 
@@ -194,8 +195,8 @@ const activeField = computed(() => store.getters.getActiveField);
       >
         <i class="fas fa-trash text-xs"></i>
       </button>
-      <small class="text-gray-500 w-100" v-if="fieldData.help_text"
-        ><i class="fas fa-circle-info"></i> {{ fieldData.help_text }}</small
+      <small class="text-gray-500 w-100" v-if="fieldData.helpText"
+        ><i class="fas fa-circle-info"></i> {{ fieldData.helpText }}</small
       >
     </div>
 
@@ -228,8 +229,8 @@ const activeField = computed(() => store.getters.getActiveField);
       >
         <i class="fas fa-trash text-xs"></i>
       </button>
-      <small class="text-gray-500 w-100" v-if="fieldData.help_text"
-        ><i class="fas fa-circle-info"></i> {{ fieldData.help_text }}</small
+      <small class="text-gray-500 w-100" v-if="fieldData.helpText"
+        ><i class="fas fa-circle-info"></i> {{ fieldData.helpText }}</small
       >
     </div>
 
@@ -263,8 +264,8 @@ const activeField = computed(() => store.getters.getActiveField);
         <i class="fas fa-trash text-xs"></i>
       </button>
 
-      <small class="text-gray-500 w-100" v-if="fieldData.help_text"
-        ><i class="fas fa-circle-info"></i> {{ fieldData.help_text }}</small
+      <small class="text-gray-500 w-100" v-if="fieldData.helpText"
+        ><i class="fas fa-circle-info"></i> {{ fieldData.helpText }}</small
       >
     </div>
 
@@ -300,8 +301,8 @@ const activeField = computed(() => store.getters.getActiveField);
       >
         <i class="fas fa-trash text-xs"></i>
       </button>
-      <small class="text-gray-500 w-100" v-if="fieldData.help_text"
-        ><i class="fas fa-circle-info"></i> {{ fieldData.help_text }}</small
+      <small class="text-gray-500 w-100" v-if="fieldData.helpText"
+        ><i class="fas fa-circle-info"></i> {{ fieldData.helpText }}</small
       >
     </div>
 
@@ -337,8 +338,8 @@ const activeField = computed(() => store.getters.getActiveField);
       >
         <i class="fas fa-trash text-xs"></i>
       </button>
-      <small class="text-gray-500 w-100" v-if="fieldData.help_text"
-        ><i class="fas fa-circle-info"></i> {{ fieldData.help_text }}</small
+      <small class="text-gray-500 w-100" v-if="fieldData.helpText"
+        ><i class="fas fa-circle-info"></i> {{ fieldData.helpText }}</small
       >
     </div>
   </div>

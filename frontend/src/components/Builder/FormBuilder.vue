@@ -1,5 +1,5 @@
 <script setup>
-import { computed, reactive, ref } from "vue";
+import { computed, onMounted, onUnmounted, reactive, ref } from "vue";
 import axios from "axios";
 import Menu from "./FormComponents/Menu.vue";
 import Sections from "./FormComponents/Sections.vue";
@@ -7,8 +7,16 @@ import FieldSettings from "./FormComponents/FieldSettings/FieldSettings.vue";
 import TextField from "../FormFields/TextField.vue";
 import Checkbox from "../FormFields/Checkbox.vue";
 import Loader from "../Mini/Loader.vue";
+import Alert from "../Mini/Alert.vue";
+import { errorHandler, successHandler } from "../../helpers/responseHandler";
+import { getIdFromUrl } from "../../helpers/extralogics";
+
 import { useStore } from "vuex";
 const store = useStore();
+
+import { useRoute, useRouter } from "vue-router";
+const router = useRouter();
+const route = useRoute();
 
 const activeField = computed(() => store.getters.getActiveField);
 const fieldsList = computed({
@@ -21,6 +29,8 @@ const fieldsList = computed({
 });
 
 const loading = ref(false);
+const formId = ref("");
+const loaderMsg = ref("Getting the form details for you... 👍🏻");
 const form = reactive({
   name: "",
   description: "",
@@ -32,24 +42,76 @@ const onChange = (value, name) => {
 };
 
 const saveFields = async () => {
+  loaderMsg.value = formId.value
+    ? "Updating your form. Yay !!!"
+    : "Saving the new form...🔥";
   loading.value = true;
   try {
     const data = {
       ...form,
       fields: fieldsList.value,
     };
-    await axios.post("/api/forms", data);
+    const apiUrl = formId.value ? `/api/forms/${formId.value}` : "/api/forms";
+    const res = await axios.post(apiUrl, data);
+    successHandler(res.data.message);
+
+    if (!formId.value) {
+      // redirect, only in case of create page
+      setTimeout(() => {
+        destroyForm();
+        router.push("/");
+      }, 2000);
+    } else {
+      destroyForm();
+      getInitialValues();
+    }
   } catch (e) {
-    console.log(e);
+    errorHandler(e.message);
   } finally {
     loading.value = false;
   }
 };
+
+const destroyForm = () => {
+  store.commit("destroyForm");
+};
+
+const getInitialValues = async () => {
+  loaderMsg.value = "Getting the form details for you... 👍🏻";
+  const id = getIdFromUrl(route.path);
+  formId.value = id;
+  try {
+    loading.value = true;
+    const res = await axios.get(`/api/forms/${formId.value}`);
+    const { data } = res.data;
+    form.name = data.name;
+    form.description = data.description;
+    form.isActive = data.isActive;
+    if (data.fields) {
+      fieldsList.value = data?.fields;
+    }
+  } catch (e) {
+    errorHandler(e.message);
+  } finally {
+    loading.value = false;
+  }
+};
+
+onMounted(() => {
+  const isEdit = route.path.includes("edit");
+
+  if (isEdit) {
+    getInitialValues();
+  }
+});
+
+onUnmounted(destroyForm);
 </script>
 
 <template>
-  <Loader v-if="loading" message="Saving the new form...🔥" />
+  <Loader v-if="loading" :message="loaderMsg" />
   <div class="main-wrapper mx-auto py-4 basic-details">
+    <Alert />
     <header class="flex justify-between items-center">
       <div class="flex items-center">
         <router-link
@@ -59,7 +121,9 @@ const saveFields = async () => {
           <i class="fas fa-arrow-left font-light"></i>
           Back
         </router-link>
-        <h1 class="font-bold text-2xl">New Form</h1>
+        <h1 class="font-bold text-2xl">
+          {{ formId ? "Edit form" : "New form" }}
+        </h1>
       </div>
 
       <div class="flex items-center gap-4">
@@ -73,7 +137,7 @@ const saveFields = async () => {
           @click="saveFields"
           class="bg-blue-700 hover:bg-blue-900 text-white font-bold py-2 px-5 rounded-xl cursor-pointer"
         >
-          Save form
+          {{ formId ? "Update form" : "Save form" }}
         </button>
       </div>
     </header>
@@ -127,5 +191,8 @@ const saveFields = async () => {
 • router functionality
 • loader functionality in the whole app
 • alert functionality
-• when i drop a new field, it should automatically become active
+• on dropping a new field, it should automatically become active
+
+
+• add common responseHandler for both backend and frontend
 -->

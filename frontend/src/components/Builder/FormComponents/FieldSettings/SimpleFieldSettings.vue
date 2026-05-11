@@ -73,11 +73,11 @@ const optionChanges = (val, name) => {
       />
 
       <TextField
-        name="field_name"
+        name="name"
         label="Field name (key)"
         placeholder="e.g. first_name"
         description="Used as the data key. Letters, numbers and underscores only"
-        :value="fieldValues?.field_name"
+        :value="fieldValues?.name"
         :onChange="onChange"
       />
 
@@ -91,15 +91,15 @@ const optionChanges = (val, name) => {
       />
 
       <TextField
-        name="help_text"
+        name="helpText"
         label="Help text"
         placeholder="e.g. Enter Name"
-        :value="fieldValues?.help_text"
+        :value="fieldValues?.helpText"
         :onChange="onChange"
       />
 
       <Checkbox
-        name="required"
+        name="isRequired"
         label="Required field"
         class="mb-2"
         :value="fieldValues.isRequired"

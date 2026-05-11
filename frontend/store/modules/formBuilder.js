@@ -16,9 +16,6 @@ const mutations = {
   updateFormDetails(state, data) {
     state.formFields = data;
   },
-  addActiveField(state, data) {
-    state.activeField = data;
-  },
   removeField(state, id) {
     state.formFields = state.formFields.filter((field) => field.id !== id);
 
@@ -27,11 +24,17 @@ const mutations = {
       state.activeField = {};
     }
   },
+  destroyForm(state) {
+    state.formFields = [];
+    state.activeField = {};
+  },
+  addActiveField(state, data) {
+    state.activeField = data;
+  },
   updateActiveField(state, data) {
     if (state.activeField) {
       state.activeField[data.name] = data.value;
     }
-    // console.log(state.formFields);
   },
 };
 

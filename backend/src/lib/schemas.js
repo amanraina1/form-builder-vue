@@ -19,15 +19,19 @@ const optionsSchema = z.object({
   value: z.string().min(1).max(50),
 });
 
-const validationSchema = z.object({
-  min: z.number().nullable().optional(),
-  max: z.number().nullable().optional(),
-});
+const validationSchema = z
+  .object({
+    min: z.number().nullable().optional(),
+    max: z.number().nullable().optional(),
+  })
+  .nullable()
+  .optional();
 
 const fieldSchema = z.object({
   label: z.string().min(1, "Label is required").max(50),
   name: z.string().min(1, "Name is required").max(50),
   dataType: z.enum(ALLOWED_TYPES, "Unknown field type"),
+  helpText: z.string().max(500).nullable().optional(),
   placeholder: z.string().max(150).nullable().optional(),
   isRequired: z.boolean().optional().default(false),
   options: z.array(optionsSchema).nullable().optional(),
