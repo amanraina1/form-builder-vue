@@ -11,35 +11,46 @@ model Form {
   id             Int              @id @default(autoincrement())
   name           String
   description    String?
-  is_active      Boolean          @default(true)
-  created_at     DateTime         @default(now())
-  updated_at     DateTime
-  FormField      FormField[]
-  FormSubmission FormSubmission[]
+  isActive       Boolean          @default(true) @map("is_active")
+  createdAt      DateTime         @default(now()) @map("created_at")
+  updatedAt      DateTime         @updatedAt @map("updated_at")
+
+  fields         FormField[]
+  submissions    FormSubmission[]
+
+  @@map("forms")
 }
 
 model FormField {
   id          Int      @id @default(autoincrement())
-  form_id     Int
+  formId      Int      @map("form_id")
   name        String
   label       String
-  dataType    String
+  dataType    String    @map("data_type")
   placeholder String?
-  help_text   String?
+  helpText    String?   @map("help_text")
   options     Json?
   validation  Json?
-  is_required Boolean  @default(false)
-  position    Int      @default(0)
-  created_at  DateTime @default(now())
-  updated_at  DateTime
-  Form        Form     @relation(fields: [form_id], references: [id], onDelete: Cascade)
+  isRequired  Boolean    @default(false) @map("is_required")
+  position    Int       @default(0)
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updated_at  DateTime  @updatedAt @map("updated_at")
+
+  form        Form      @relation(fields: [formId], references: [id], onDelete: Cascade)
+
+  @@index([formId])
+  @@map("form_fields")
 }
 
 model FormSubmission {
   id          Int      @id @default(autoincrement())
-  form_id     Int
+  formId      Int      @map("form_id")
   data        Json
-  created_ats DateTime @default(now())
-  updated_at  DateTime
-  Form        Form     @relation(fields: [form_id], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  Form        Form     @relation(fields: [formId], references: [id], onDelete: Cascade)
+
+  @@index([formId])
+  @@map("form_submissions")
 }

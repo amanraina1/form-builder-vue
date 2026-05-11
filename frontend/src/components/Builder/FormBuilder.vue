@@ -1,9 +1,10 @@
 <script setup>
-import { computed, ref, reactive, watch } from "vue";
+import { computed, reactive } from "vue";
+import axios from "axios";
 import Menu from "./FormComponents/Menu.vue";
 import Sections from "./FormComponents/Sections.vue";
-import TextField from "../FormFields/TextField.vue";
 import FieldSettings from "./FormComponents/FieldSettings/FieldSettings.vue";
+import TextField from "../FormFields/TextField.vue";
 import Checkbox from "../FormFields/Checkbox.vue";
 import { useStore } from "vuex";
 const store = useStore();
@@ -23,7 +24,19 @@ const form = reactive({
   description: "",
   isActive: true,
 });
-const saveFields = () => {};
+const saveFields = () => {
+  const data = {
+    ...form,
+    fields: fieldsList.value,
+  };
+
+  axios
+    .post("/api/forms", data)
+    .then((res) => {
+      console.log(res);
+    })
+    .catch(() => {});
+};
 const onChange = (value, name) => {
   form[name] = value;
 };
@@ -90,3 +103,9 @@ const onChange = (value, name) => {
     </div>
   </div>
 </template>
+
+<!-- 
+1. router functionality
+2. alert functionality
+3. when i drop a new field, it should automatically become active
+-->

@@ -14,15 +14,18 @@ const reshapeForms = (form) => {
 };
 
 const fieldData = (field, position) => {
-  label: field.label;
-  name: field.name;
-  dataType: field.dataType;
-  placeholder: field.placeholder ?? null;
-  helpText: field.helpText ?? null;
-  options: field.options ?? null;
-  validation: field.validation ?? null;
-  isRequired: field.isRequired ?? false;
-  position;
+  const polishedData = {
+    label: field.label,
+    name: field.name,
+    dataType: field.dataType,
+    placeholder: field.placeholder ?? null,
+    helpText: field.help_text ?? null,
+    options: field.options ?? null,
+    validation: field.validation ?? null,
+    isRequired: field.isRequired ?? false,
+    position,
+  };
+  return polishedData;
 };
 
 const getAllForms = async (req, res) => {
@@ -30,7 +33,7 @@ const getAllForms = async (req, res) => {
     const forms = await prisma.form.findMany({
       orderBy: { id: "desc" },
       include: {
-        _count: { select: { FormField: true, FormSubmission: true } },
+        _count: { select: { fields: true, submissions: true } },
       },
     });
     res.status(200).json({ success: true, data: forms.map(reshapeForms) });
@@ -61,7 +64,7 @@ const createForm = async (req, res) => {
         data: {
           name: data.name,
           description: data.description ?? null,
-          is_active: data.is_active,
+          isActive: data.isActive,
         },
       });
 
@@ -78,14 +81,18 @@ const createForm = async (req, res) => {
       // 3rd step -> return the form that was just created to send back in response
       return tx.form.findUnique({
         where: { id: created.id },
-        include: { FormField: { orderBy: { position: "asc" } } },
+        include: { fields: { orderBy: { position: "asc" } } },
       });
     });
 
     res
       .status(201)
       .json({ success: true, message: "Form created successfully" });
-  } catch (e) {}
+  } catch (e) {
+    res
+      .status(500)
+      .json({ success: false, message: `Error in creating form: ${e}` });
+  }
 };
 
 const updateForm = async (req, res) => {

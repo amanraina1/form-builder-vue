@@ -21,7 +21,7 @@ const activeField = computed(() => store.getters.getActiveField);
 <template>
   <div>
     <div
-      v-if="fieldData.type === 'text'"
+      v-if="fieldData.dataType === 'text'"
       :class="{
         'shadow-2xl outline outline-blue-500':
           activeField?.id === fieldData?.id,
@@ -57,7 +57,7 @@ const activeField = computed(() => store.getters.getActiveField);
     </div>
 
     <div
-      v-else-if="fieldData.type === 'textarea'"
+      v-else-if="fieldData.dataType === 'textarea'"
       :class="{
         'shadow outline outline-blue-500': activeField?.id === fieldData?.id,
       }"
@@ -92,7 +92,7 @@ const activeField = computed(() => store.getters.getActiveField);
     </div>
 
     <div
-      v-else-if="fieldData.type === 'number'"
+      v-else-if="fieldData.dataType === 'number'"
       :class="{
         'shadow-2xl outline outline-blue-500':
           activeField?.id === fieldData?.id,
@@ -129,7 +129,7 @@ const activeField = computed(() => store.getters.getActiveField);
     </div>
 
     <div
-      v-else-if="fieldData.type === 'email'"
+      v-else-if="fieldData.dataType === 'email'"
       :class="{
         'shadow-2xl outline outline-blue-500':
           activeField?.id === fieldData?.id,
@@ -165,7 +165,7 @@ const activeField = computed(() => store.getters.getActiveField);
     </div>
 
     <div
-      v-else-if="fieldData.type === 'date'"
+      v-else-if="fieldData.dataType === 'date'"
       :class="{
         'shadow-2xl outline outline-blue-500':
           activeField?.id === fieldData?.id,
@@ -200,7 +200,7 @@ const activeField = computed(() => store.getters.getActiveField);
     </div>
 
     <div
-      v-else-if="fieldData.type === 'select'"
+      v-else-if="fieldData.dataType === 'select'"
       :class="{
         'shadow-2xl outline outline-blue-500':
           activeField?.id === fieldData?.id,
@@ -234,7 +234,7 @@ const activeField = computed(() => store.getters.getActiveField);
     </div>
 
     <div
-      v-else-if="fieldData.type === 'multiselect'"
+      v-else-if="fieldData.dataType === 'multiselect'"
       :class="{
         'shadow-2xl outline outline-blue-500':
           activeField?.id === fieldData?.id,
@@ -269,7 +269,7 @@ const activeField = computed(() => store.getters.getActiveField);
     </div>
 
     <div
-      v-else-if="fieldData.type === 'radio'"
+      v-else-if="fieldData.dataType === 'radio'"
       :class="{
         'shadow-2xl outline outline-blue-500':
           activeField?.id === fieldData?.id,
@@ -306,7 +306,7 @@ const activeField = computed(() => store.getters.getActiveField);
     </div>
 
     <div
-      v-else-if="fieldData.type === 'checkbox'"
+      v-else-if="fieldData.dataType === 'checkbox'"
       :class="{
         'shadow-2xl outline outline-blue-500':
           activeField?.id === fieldData?.id,

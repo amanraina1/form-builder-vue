@@ -82,7 +82,7 @@ const optionChanges = (val, name) => {
       />
 
       <TextField
-        v-if="!['checkbox', 'radio'].includes(fieldValues?.type)"
+        v-if="!['checkbox', 'radio'].includes(fieldValues?.dataType)"
         name="placeholder"
         label="Placeholder"
         placeholder="Placeholder"
@@ -102,12 +102,12 @@ const optionChanges = (val, name) => {
         name="required"
         label="Required field"
         class="mb-2"
-        :value="fieldValues.required"
+        :value="fieldValues.isRequired"
         :onChange="onChange"
       />
 
       <template
-        v-if="['text', 'textarea', 'number'].includes(fieldValues?.type)"
+        v-if="['text', 'textarea', 'number'].includes(fieldValues?.dataType)"
       >
         <TextField
           name="min_validation"
@@ -129,7 +129,7 @@ const optionChanges = (val, name) => {
       <template
         v-if="
           ['radio', 'select', 'multiselect', 'checkbox'].includes(
-            fieldValues?.type,
+            fieldValues?.dataType,
           )
         "
       >
