@@ -1,11 +1,12 @@
 <script setup>
-import { computed, reactive } from "vue";
+import { computed, reactive, ref } from "vue";
 import axios from "axios";
 import Menu from "./FormComponents/Menu.vue";
 import Sections from "./FormComponents/Sections.vue";
 import FieldSettings from "./FormComponents/FieldSettings/FieldSettings.vue";
 import TextField from "../FormFields/TextField.vue";
 import Checkbox from "../FormFields/Checkbox.vue";
+import Loader from "../Mini/Loader.vue";
 import { useStore } from "vuex";
 const store = useStore();
 
@@ -19,33 +20,48 @@ const fieldsList = computed({
   },
 });
 
+const loading = ref(false);
 const form = reactive({
   name: "",
   description: "",
   isActive: true,
 });
-const saveFields = () => {
-  const data = {
-    ...form,
-    fields: fieldsList.value,
-  };
 
-  axios
-    .post("/api/forms", data)
-    .then((res) => {
-      console.log(res);
-    })
-    .catch(() => {});
-};
 const onChange = (value, name) => {
   form[name] = value;
+};
+
+const saveFields = async () => {
+  loading.value = true;
+  try {
+    const data = {
+      ...form,
+      fields: fieldsList.value,
+    };
+    await axios.post("/api/forms", data);
+  } catch (e) {
+    console.log(e);
+  } finally {
+    loading.value = false;
+  }
 };
 </script>
 
 <template>
+  <Loader v-if="loading" message="Saving the new form...🔥" />
   <div class="main-wrapper mx-auto py-4 basic-details">
     <header class="flex justify-between items-center">
-      <h1 class="font-bold text-2xl">New Form</h1>
+      <div class="flex items-center">
+        <router-link
+          to="/"
+          class="bg-slate-50 hover:bg-slate-100 font-light py-2 px-5 mr-2 rounded-xl cursor-pointer"
+        >
+          <i class="fas fa-arrow-left font-light"></i>
+          Back
+        </router-link>
+        <h1 class="font-bold text-2xl">New Form</h1>
+      </div>
+
       <div class="flex items-center gap-4">
         <Checkbox
           name="isActive"
@@ -105,7 +121,11 @@ const onChange = (value, name) => {
 </template>
 
 <!-- 
-1. router functionality
-2. alert functionality
-3. when i drop a new field, it should automatically become active
+• highlight on hover in navbar
+• back button in create form page
+• implement delete functionality
+• router functionality
+• loader functionality in the whole app
+• alert functionality
+• when i drop a new field, it should automatically become active
 -->
