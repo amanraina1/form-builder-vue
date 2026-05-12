@@ -5,7 +5,7 @@ import Menu from "./FormComponents/Menu.vue";
 import Sections from "./FormComponents/Sections.vue";
 import FieldSettings from "./FormComponents/FieldSettings/FieldSettings.vue";
 import TextField from "../FormFields/TextField.vue";
-import Checkbox from "../FormFields/Checkbox.vue";
+import CheckboxField from "../FormFields/CheckboxField.vue";
 import Loader from "../Mini/Loader.vue";
 import Alert from "../Mini/Alert.vue";
 import { errorHandler, successHandler } from "../../helpers/responseHandler";
@@ -195,4 +195,8 @@ onUnmounted(destroyForm);
 
 
 • add common responseHandler for both backend and frontend
+• make a new modal component and use it in various places as a confirmation modal like delete form in the form list page
+• multiselect component is pending
+• check checkbox also
+
 -->

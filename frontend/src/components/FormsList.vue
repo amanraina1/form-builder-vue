@@ -82,11 +82,14 @@ onMounted(getForms);
             </button>
           </router-link>
 
-          <button
-            class="mr-2 bg-transparent hover:bg-gray-500/10 text-gray-500 font-semibold py-1 px-4 border border-gray-500 rounded-xl transition-all cursor-pointer"
+          <router-link :to="`/renderer/${form.id}`"
+            ><button
+              class="mr-2 bg-transparent hover:bg-gray-500/10 text-gray-500 font-semibold py-1 px-4 border border-gray-500 rounded-xl transition-all cursor-pointer"
+            >
+              Open
+            </button></router-link
           >
-            Open
-          </button>
+
           <button
             @click="deleteForm(form.id)"
             class="mr-2 bg-transparent hover:bg-red-500/10 text-red-500 font-semibold py-1 px-4 border border-red-500 rounded-xl transition-all cursor-pointer"

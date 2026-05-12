@@ -64,10 +64,12 @@ export function buildSubmissionSchema(fields) {
 
   for (const field of fields) {
     let s;
+
     switch (field.dataType) {
       case "email":
         s = z.string().email("Must be a valid email");
         break;
+
       case "number":
         s = z.coerce.number({ message: "Must be a number" });
         if (field.validation?.min !== null)
@@ -95,7 +97,7 @@ export function buildSubmissionSchema(fields) {
           ? z
               .string()
               .refine(
-                (v) => !Number.isNaN(Date.parse(v)),
+                (v) => values.includes(v),
                 `Must be one of: ${values.join(", ")}`,
               )
           : z.string();

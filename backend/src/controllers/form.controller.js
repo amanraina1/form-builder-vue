@@ -161,7 +161,7 @@ const formSubmit = async (req, res) => {
     const id = Number(req.params.id);
     const form = await prisma.form.findUnique({
       where: { id },
-      include: { FormField: { orderBy: { position: "asc" } } },
+      include: { fields: { orderBy: { position: "asc" } } },
     });
 
     if (!form)
@@ -169,17 +169,17 @@ const formSubmit = async (req, res) => {
         .status(400)
         .json({ success: false, message: "Form not found" });
 
-    if (!form.is_active)
+    if (!form.isActive)
       return res.status(422).json({
         success: false,
-        message: "This form is not accepting submissions",
+        message: "This form is not accepting submissions right now.",
       });
 
     const schema = buildSubmissionSchema(form.fields);
     const payload = validate(schema, { data: req.body?.data ?? {} });
 
     const submission = await prisma.formSubmission.create({
-      data: { form_id: id, data: payload.data },
+      data: { formId: id, data: payload.data },
     });
     res
       .status(201)
@@ -193,14 +193,14 @@ const getFormSubmissions = async (req, res) => {
 
     const form = await prisma.form.findUnique({
       where: { id },
-      include: { FormField: { orderBy: { position: "asc" } } },
+      include: { fields: { orderBy: { position: "asc" } } },
     });
 
     if (!form)
       return res.status(400).json({ success: true, message: "Form not found" });
 
     const submissions = await prisma.formSubmission.findMany({
-      where: { form_id: id },
+      where: { formId: id },
       orderBy: { id: "asc" },
     });
 

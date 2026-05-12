@@ -1,7 +1,8 @@
 <script setup>
 import { computed, ref } from "vue";
-import Checkbox from "../../../FormFields/Checkbox.vue";
 import TextField from "../../../FormFields/TextField.vue";
+import CheckboxField from "../../../FormFields/CheckboxField.vue";
+
 import { useStore } from "vuex";
 const store = useStore();
 
@@ -98,7 +99,7 @@ const optionChanges = (val, name) => {
         :onChange="onChange"
       />
 
-      <Checkbox
+      <CheckboxField
         name="isRequired"
         label="Required field"
         class="mb-2"
