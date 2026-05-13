@@ -1,10 +1,11 @@
 <script setup>
 import { ref, computed, onMounted, onUnmounted } from "vue";
-import axios from "axios";
 import { getIdFromUrl } from "../../helpers/extralogics";
+import axios from "axios";
 
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 const route = useRoute();
+const router = useRouter();
 
 import { useStore } from "vuex";
 const store = useStore();
@@ -14,8 +15,9 @@ import TextField from "../FormFields/TextField.vue";
 import RadioField from "../FormFields/RadioField.vue";
 import DateField from "../FormFields/DateField.vue";
 import FieldRenderer from "./FieldRenderer.vue";
-import { errorHandler } from "../../helpers/responseHandler";
+import { errorHandler, successHandler } from "../../helpers/responseHandler";
 import Loader from "../Mini/Loader.vue";
+import Alert from "../Mini/Alert.vue";
 
 const loading = ref(false);
 const formId = ref("");
@@ -53,6 +55,23 @@ const destroyFormRendered = () => {
 };
 const formVal = ref("");
 
+const onSubmit = async () => {
+  const fieldData = store.getters.getFieldValues;
+  try {
+    loading.value = true;
+    const payload = { data: fieldData };
+    const res = await axios.post(`/api/forms/${formId.value}/submit`, payload);
+    successHandler(res.data.message);
+    setTimeout(() => {
+      router.push("/");
+    }, 2000);
+  } catch (err) {
+    errorHandler(err.message);
+  } finally {
+    loading.value = false;
+  }
+};
+
 onMounted(getInitialValues);
 onUnmounted(destroyFormRendered);
 </script>
@@ -66,6 +85,7 @@ onUnmounted(destroyFormRendered);
     </header>
 
     <div class="form-container shadow-lg rounded-lg overflow-hidden">
+      <Alert />
       <Loader v-if="loading" message="hello youuuu..." />
       <div class="card-header bg-gray-200 p-3">
         <h3 class="font-bold">{{ formName }}</h3>
@@ -80,6 +100,7 @@ onUnmounted(destroyFormRendered);
       </div>
       <div class="card-footer bg-gray-200 p-3">
         <button
+          @click="onSubmit"
           class="mr-2 bg-transparent hover:bg-blue-500/20 text-blue-500 font-semibold py-1 px-4 border border-blue-500 rounded-xl transition-all cursor-pointer"
         >
           Submit

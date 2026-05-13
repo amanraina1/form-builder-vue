@@ -184,7 +184,12 @@ const formSubmit = async (req, res) => {
     res
       .status(201)
       .json({ success: true, message: "Form submitted successfully" });
-  } catch (e) {}
+  } catch (err) {
+    return res.status(500).json({
+      success: false,
+      message: `Some error while submitting the form: ${err}`,
+    });
+  }
 };
 
 const getFormSubmissions = async (req, res) => {

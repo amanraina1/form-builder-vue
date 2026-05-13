@@ -204,8 +204,10 @@ onUnmounted(destroyForm);
 • add sticky top in the menu bar in builder
 
 
-• add common responseHandler for both backend and frontend
+• add common responseHandler for both backend
+• can we think of a proper way of handling validation in frontend ??
 • make a new modal component and use it in various places as a confirmation modal like delete form in the form list page
 • multiselect component is pending
+• add some UI when there are no forms in FormsList.vue
 
 -->
