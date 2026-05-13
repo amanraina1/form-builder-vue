@@ -53,11 +53,6 @@ const destroyFormRendered = () => {
 };
 const formVal = ref("");
 
-// const onChange = (value, name) => {
-//   console.log(value, name);
-//   formVal.value = value;
-// };
-
 onMounted(getInitialValues);
 onUnmounted(destroyFormRendered);
 </script>

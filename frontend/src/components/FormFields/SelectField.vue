@@ -6,14 +6,10 @@ const props = defineProps({
   value: { type: [String, Number], default: "" },
   onChange: { type: Function, required: true },
   options: { type: Array, required: true },
-  description: { type: String, defualt: "" },
+  description: { type: String, default: "" },
 });
 
 const changedValue = ref(props.value);
-
-watch(props.value, (newVal) => {
-  console.log("watch==>", newVal);
-});
 </script>
 
 <template>

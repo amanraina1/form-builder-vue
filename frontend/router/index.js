@@ -8,6 +8,7 @@ const routes = [
   { path: "/builder", component: FormBuilder },
   { path: "/builder/edit/:id", component: FormBuilder },
   { path: "/renderer/:id", component: FormRenderer },
+  { path: "/renderer", redirect: "/" },
 ];
 
 export const router = createRouter({

@@ -127,12 +127,10 @@ onUnmounted(destroyForm);
       </div>
 
       <div class="flex items-center gap-4">
-        <Checkbox
-          name="isActive"
-          :onChange="onChange"
-          :value="form.isActive"
-          label="Active"
-        />
+        <div>
+          <input id="isActive" type="checkbox" v-model="form.isActive" />
+          <label for="isActive" class="font-bold ml-2">Active</label>
+        </div>
         <button
           @click="saveFields"
           class="bg-blue-700 hover:bg-blue-900 text-white font-bold py-2 px-5 rounded-xl cursor-pointer"
@@ -160,7 +158,7 @@ onUnmounted(destroyForm);
     </div>
 
     <div class="grid grid-cols-10 gap-10">
-      <Menu class="col-span-2" />
+      <Menu class="sticky-top-menu col-span-2" />
 
       <div class="min-h-100 col-span-5 px-4 bg-slate-50">
         <header class="mb-3 border-bottom border-b">
@@ -179,10 +177,20 @@ onUnmounted(destroyForm);
         <Sections :fieldsList="fieldsList" />
       </div>
 
-      <FieldSettings :activeField="activeField" class="col-span-3" />
+      <FieldSettings
+        :activeField="activeField"
+        class="sticky-top-menu col-span-3"
+      />
     </div>
   </div>
 </template>
+
+<style scoped>
+.sticky-top-menu {
+  position: sticky !important;
+  top: 45px !important;
+}
+</style>
 
 <!-- 
 • highlight on hover in navbar
@@ -192,12 +200,12 @@ onUnmounted(destroyForm);
 • loader functionality in the whole app
 • alert functionality
 • on dropping a new field, it should automatically become active
+• check checkbox also
+• add sticky top in the menu bar in builder
 
 
 • add common responseHandler for both backend and frontend
 • make a new modal component and use it in various places as a confirmation modal like delete form in the form list page
 • multiselect component is pending
-• check checkbox also
-• add sticky top in the menu bar in builder
 
 -->

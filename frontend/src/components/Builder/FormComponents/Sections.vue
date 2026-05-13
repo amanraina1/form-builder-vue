@@ -21,7 +21,12 @@ const dragOptions = computed(() => {
 </script>
 
 <template>
-  <draggable v-bind="dragOptions" :list="originalList" class="min-h-100">
+  <draggable
+    v-bind="dragOptions"
+    :list="originalList"
+    class="min-h-100"
+    item-key="id"
+  >
     <template #item="{ element, index }">
       <Fields :fieldData="element" :key="index" />
     </template>

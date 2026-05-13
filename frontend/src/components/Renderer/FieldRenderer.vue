@@ -65,7 +65,7 @@ const onChange = (value, name) => {
   <CheckboxField
     v-if="field.dataType === 'checkbox'"
     :name="field.name"
-    :value="fieldValues[field.name] || false"
+    :value="fieldValues[field.name] || []"
     :onChange="onChange"
     :description="field.helpText"
     :label="field.label"

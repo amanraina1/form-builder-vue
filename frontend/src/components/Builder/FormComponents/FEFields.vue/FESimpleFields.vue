@@ -16,7 +16,6 @@ const removeField = (id) => {
 };
 
 const activeField = computed(() => store.getters.getActiveField);
-// console.log(activeField);
 </script>
 
 <template>
@@ -318,7 +317,7 @@ const activeField = computed(() => store.getters.getActiveField);
         @click="addActiveField(fieldData)"
         :for="fieldData.name"
         class="col-span-2 text-sm/6 font-medium text-gray-900"
-        >Checkbox</label
+        >{{ fieldData.label }}</label
       >
       <div class="col-span-7" @click="addActiveField(fieldData)">
         <div v-for="option in fieldData.options">

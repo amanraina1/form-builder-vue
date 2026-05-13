@@ -5,7 +5,7 @@ const props = defineProps({
   type: { type: String, default: "text" },
   name: { type: String, required: true },
   label: { type: String, required: true },
-  description: { type: String, defualt: "" },
+  description: { type: String, default: "" },
   value: { type: [String, Number], default: "" },
   onChange: { type: Function, required: true },
 });

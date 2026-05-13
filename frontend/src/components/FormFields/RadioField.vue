@@ -6,7 +6,7 @@ const props = defineProps({
   value: { type: [String, Number], default: "" },
   onChange: { type: Function, required: true },
   options: { type: Array, required: true },
-  description: { type: String, defualt: "" },
+  description: { type: String, default: "" },
 });
 
 const changedValue = ref(props.value);
@@ -21,18 +21,19 @@ const changedValue = ref(props.value);
       >{{ label }}</label
     >
 
-    <div v-for="option in options" class="flex">
-      <input
-        type="radio"
-        :name="name"
-        :id="option.name"
-        :value="option.value"
-        v-model="changedValue"
-        @change="onChange(changedValue, name)"
-        class="min-w-0 mr-2 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none sm:text-sm/6"
-        :placeholder="placeholder"
-      />
-      <label>{{ option.label }}</label>
+    <div class="flex gap-2">
+      <div v-for="option in options">
+        <input
+          type="radio"
+          :name="name"
+          :id="option.name"
+          :value="option.value"
+          v-model="changedValue"
+          @change="onChange(changedValue, name)"
+          class="min-w-0 mr-2 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none sm:text-sm/6"
+        />
+        <label>{{ option.label }}</label>
+      </div>
     </div>
 
     <small class="text-gray-500" v-if="description"
