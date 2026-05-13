@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, onMounted } from "vue";
+import { ref, computed, onMounted, onUnmounted } from "vue";
 import axios from "axios";
 import { getIdFromUrl } from "../../helpers/extralogics";
 
@@ -47,6 +47,10 @@ const getInitialValues = async () => {
     loading.value = false;
   }
 };
+
+const destroyFormRendered = () => {
+  store.commit("destroyFormRendered");
+};
 const formVal = ref("");
 
 // const onChange = (value, name) => {
@@ -55,6 +59,7 @@ const formVal = ref("");
 // };
 
 onMounted(getInitialValues);
+onUnmounted(destroyFormRendered);
 </script>
 <template>
   <div class="main-wrapper mx-auto py-4 basic-details">

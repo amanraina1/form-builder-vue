@@ -1,14 +1,19 @@
 <script setup>
-import { ref } from "vue";
+import { ref, watch } from "vue";
 const props = defineProps({
   name: { type: String, required: true },
   label: { type: String, required: true },
   value: { type: [String, Number], default: "" },
   onChange: { type: Function, required: true },
   options: { type: Array, required: true },
+  description: { type: String, defualt: "" },
 });
 
 const changedValue = ref(props.value);
+
+watch(props.value, (newVal) => {
+  console.log("watch==>", newVal);
+});
 </script>
 
 <template>
@@ -25,9 +30,9 @@ const changedValue = ref(props.value);
     >
       <select
         :name="name"
-        :id="id"
-        :value="changedValue"
+        :id="name"
         v-model="changedValue"
+        @change="onChange(changedValue, name)"
         class="py-1.5 pr-3 pl-1 w-full text-gray-900 placeholder:text-gray-400 focus:outline-none sm:text-sm/6"
       >
         <option :disabled="true">Select option</option>
@@ -36,6 +41,8 @@ const changedValue = ref(props.value);
         </option>
       </select>
     </div>
-    <small class="text-gray-500" v-if="description">{{ description }}</small>
+    <small class="text-gray-500" v-if="description"
+      ><i class="fas fa-circle-info"></i> {{ description }}</small
+    >
   </div>
 </template>

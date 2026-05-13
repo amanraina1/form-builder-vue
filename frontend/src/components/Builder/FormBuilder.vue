@@ -198,5 +198,6 @@ onUnmounted(destroyForm);
 • make a new modal component and use it in various places as a confirmation modal like delete form in the form list page
 • multiselect component is pending
 • check checkbox also
+• add sticky top in the menu bar in builder
 
 -->

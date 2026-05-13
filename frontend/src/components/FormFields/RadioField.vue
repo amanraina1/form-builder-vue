@@ -6,6 +6,7 @@ const props = defineProps({
   value: { type: [String, Number], default: "" },
   onChange: { type: Function, required: true },
   options: { type: Array, required: true },
+  description: { type: String, defualt: "" },
 });
 
 const changedValue = ref(props.value);
@@ -27,13 +28,15 @@ const changedValue = ref(props.value);
         :id="option.name"
         :value="option.value"
         v-model="changedValue"
-        @input="onChange(changedValue, name)"
+        @change="onChange(changedValue, name)"
         class="min-w-0 mr-2 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none sm:text-sm/6"
         :placeholder="placeholder"
       />
       <label>{{ option.label }}</label>
     </div>
 
-    <!-- <small class="text-gray-500" v-if="description">{{ description }}</small> -->
+    <small class="text-gray-500" v-if="description"
+      ><i class="fas fa-circle-info"></i> {{ description }}</small
+    >
   </div>
 </template>

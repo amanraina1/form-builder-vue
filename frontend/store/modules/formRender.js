@@ -1,17 +1,30 @@
 const state = {
   formFields: [],
+  fieldValues: {},
 };
 
 const getters = {
   getFormRenderFields: (state) => {
     return state.formFields;
   },
+
+  getFieldValues: (state) => {
+    return state.fieldValues;
+  },
 };
 
 const mutations = {
   setFormRenderFields: (state, payload) => {
     state.formFields = payload;
-    console.log(state.formFields);
+  },
+
+  setFieldValues: (state, payload) => {
+    const { name, value } = payload;
+    state.fieldValues[name] = value;
+  },
+  destroyFormRendered: (state, payload) => {
+    state.formFields = [];
+    state.fieldValues = {};
   },
 };
 

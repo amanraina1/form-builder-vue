@@ -5,6 +5,7 @@ const props = defineProps({
   label: { type: String, required: true },
   value: { type: Boolean, default: false },
   onChange: { type: Function, default: () => {} },
+  description: { type: String, defualt: "" },
 });
 
 const changedValue = ref(props.value);
@@ -25,4 +26,7 @@ const changedValue = ref(props.value);
       label
     }}</label>
   </div>
+  <small class="text-gray-500" v-if="description"
+    ><i class="fas fa-circle-info"></i> {{ description }}</small
+  >
 </template>

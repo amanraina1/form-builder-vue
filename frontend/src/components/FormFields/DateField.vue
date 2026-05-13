@@ -36,6 +36,8 @@ const changedValue = ref(props.value);
         :placeholder="placeholder"
       />
     </div>
-    <small class="text-gray-500" v-if="description">{{ description }}</small>
+    <small class="text-gray-500" v-if="description"
+      ><i class="fas fa-circle-info"></i> {{ description }}</small
+    >
   </div>
 </template>
